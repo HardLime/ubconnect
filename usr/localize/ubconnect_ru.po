@@ -1,0 +1,470 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ubconnect 1.0\n"
+"Report-Msgid-Bugs-To: info@ublinux.ru\n"
+"Last-Translator: ublinux <info@ublinux.ru>\n"
+"Language-Team: Russian - UBLinux Team <info@ublinux.ru>\n"
+"Language: Russian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "parameter is required"
+msgstr "обязательный параметр"
+
+msgid "xfreerdp syntax selected"
+msgstr "выбран синтаксис xfreerdp"
+
+msgid "rdesktop syntax selected"
+msgstr "выбран синтаксис rdesktop"
+
+msgid "rdesktop-vrdp syntax selected"
+msgstr "выбран синтаксис rdesktop-vrdp"
+
+msgid "remoteapp connection"
+msgstr "подключение remoteapp"
+
+msgid "Invalid palette settings, set to default"
+msgstr "Неверные настройки палитры, установлено по умолчанию"
+
+msgid "Can't find default printer, parameter ignored!"
+msgstr "Не могу найти принтер по умолчанию, параметр игнорирован!"
+
+msgid "All printers are forwarded"
+msgstr "Все принтеры проброшены"
+
+msgid "parameter is incorrect"
+msgstr "неверный параметр"
+
+msgid "Set a connection client (--xfreerdp, --rdesktop, --rdesktop-vrdp, --vboxseamless)"
+msgstr "Укажите клиента подключения (--xfreerdp, --rdesktop, --rdesktop-vrdp, --vboxseamless)"
+
+msgid "The shortcut will be saved to the desktop."
+msgstr "Ярлык будет сохранен на рабочем столе."
+
+msgid "Permission settings are not available in RemoteApp mode"
+msgstr "Настройки разрешения недоступны в режиме RemoteApp"
+
+msgid "Using RemoteApp + VRDP is not available, parametrs --remoteapp, --appstart was ignored"
+msgstr "Использование RemoteApp + VRDP недоступно, параметры --remoteapp, --appstart проигнорированы"
+
+msgid "The file already exists. Enter yes to overwrite the file:"
+msgstr "Файл уже существует. Введите yes, для перезаписи файла:"
+
+msgid "helptext"
+msgstr "Все значения указываются через пробел. Пути и имена файлов указывать в ковычках \"path\"\n"
+"Параметры с пометкой (Логический) указываются без значений. (или не указываются)\n"
+"\n"
+"Параметры подключения:\n"
+"--ip - адрес сервера типа х.х.х.х\n"
+"--port - порт сервера\n"
+"--domain - домен сервера\n"
+"--login - имя пользователя гостевой ОС\n"
+"--password - пароль пользователя гостевой ОС\n"
+"--clientdisplay - запустить в полноэкранном режиме. (Логический)\n"
+"--geometry - задать разрешение экрана вручную. Пример: --geometry 1920x1280\n"
+"--color - задать палитру. Пример --color 2\n"
+"    Допустимые значения палитры:\n"
+"    Для xfreerdp\n"
+"    1) high color 15 bit\n"
+"    2) high color 16 bit\n"
+"    3) true color 24 bit\n"
+"    4) RemoteFX\n"
+"    5) GFX progressive\n"
+"    6) GFX AVC420 32bit\n"
+"    7) GFX H264\n"
+"    Для rdesktop и vrdp\n"
+"    1) high color 15 bit\n"
+"    2) high color 16 bit\n"
+"    3) true color 24 bit\n"
+"    4) true color 32 bit\n"
+"--mounthome - монтирование домашнего каталога (логический)\n"
+"--mountcatalog - монтирование каталога. Пример --mountcatalog \"/home/superadmin/Загрузки\"\n"
+"--defaultprinter - проброс принтера установленного по умолчанию. (логический)\n"
+"--allprinters - проброс всех принтеров зарегистрированных в системе (логический)\n"
+"--printer - проброс принтера. Пример --printer \"My printer name\"\n"
+"--audio - проброс звука и микрофона. (логический)\n"
+"--certignore - игнорирование сертификата (логический)\n"
+"\n"
+"Выбор режима подключения:\n"
+"--appstart - запуск без окружения рабочего стола. Пример --appstart \"путь/до/приложения\" Не указывать параметр для режима с окружением рабочего стола\n"
+"--remoteapp - запустить приложение в режиме remoteapp (логический)\n"
+"\n"
+"Настройка ярлыка подключения:\n"
+"--windowtitle - установить заголовок окна. Пример --windowtitle \"новый заголовок окна\"\n"
+"--icon - указать полный путь до иконки\n"
+"--filepath - указать путь сохранения. Пример --filepath \"/home/superadmin/Документы\"\n"
+"--name - имя desktop-файла. Пример --name \"Подключение к виртуальной машине 1\"\n"
+"\n"
+"Выбор клиента подключения:\n"
+"--xfreerdp - использовать синтаксис Freerdp (логический)\n"
+"--rdesktop - использовать синтаксис rdesktop (логический)\n"
+"--vrdp - использовать синтаксис rdesktop-vrdp (логический)\n"
+"--vboxseamless - запустить в режиме интеграции\n"
+"\n"
+"Примеры:\n"
+"Подключение RDP:\n"
+"* connect --ip 192.168.1.1 --port 3389 --clientdisplay --name \"Windows\" --mounthome --printer \"My printer\" --xfreerdp\n"
+"* connect --login user --password 123 --ip 192.168.1.1 --name \"Windows\" --icon \"ub_icon\" --geometry 1920x1280 --printer \"name\" --color 1 --xfreerdp\n"
+"* connect --ip 192.168.1.1 --port 3389 --name \"Windows XP\" --mounthome --printer \"My printer\" --geometry 1920x1280 --rdesktop\n"
+"\n"
+"Подключение RDP без окружения рабочего стола:\n"
+"* connect --login user --password 123 --ip 192.168.1.1 --port 3389 --name \"Запустить блокнот\" --appstart \"notepad.exe\" --xfreerdp (для Windows 7 и новее)\n"
+"* connect --login user --password 123 --ip 192.168.1.1 --port 3389 --name \"Запустить блокнот\" --appstart \"notepad.exe\" --rdesktop (для Windows XP)\n"
+"\n"
+"Подключение VRDP:\n"
+"* connect --ip 192.168.1.1 --port 3389 --name \"VrdpConnect\" --mounthome --printer \"My printer\" --vrdp\n"
+"\n"
+"Подключение RemoteApp:\n"
+"* connect --login user --password 123 --ip 192.168.1.1 --port 3389 --name \"Блокнот\" --appstart \"notepad.exe\" --remoteapp --xfreerdp (для Windows 7 и новее)\n"
+"* connect --login user --password 123 --ip 192.168.1.1 --port 3389 --name \"Блокнот\" --appstart \"notepad.exe\" --remoteapp --rdesktop (для Windows XP)\n"
+"Подключение VBoxSeamless:\n"
+"* connect --vboxseamless --vmname \"Windows 7\" --name \"Режим Интеграции\"\n"
+"* connect --vboxseamless --vmname \"Windows 7\" --name \"Запуск блокнота\" --appstart \"notepad.exe\" --login user --password 123 "
+
+msgid "Operation canceled"
+msgstr "Операция отменена"
+
+msgid "for start app, you need send login and password for system account"
+msgstr "для запуска приложений, Вы должны ввести логин и пароль для аккаута в системе"
+
+msgid "Host"
+msgstr "Хост"
+
+msgid "Login:"
+msgstr "Логин:"
+
+msgid "Password:"
+msgstr "Пароль:"
+
+msgid "Domain:"
+msgstr "Домен:"
+
+msgid "Ignore certificate"
+msgstr "Игнорировать сертификат"
+
+msgid "Port"
+msgstr "Порт:"
+
+msgid "Connection client"
+msgstr "Клиент подключения"
+
+msgid "xfreerdp (Windows 7 and newer)"
+msgstr "xfreerdp (Windows 7 и новее)"
+
+msgid "Application launch"
+msgstr "Запуск приложения"
+
+msgid "App:"
+msgstr "Приложение:"
+
+msgid "Shared catalog"
+msgstr "Общий каталог"
+
+msgid "Auto forwarding\n"
+"home directory of host in VM"
+msgstr "Автоматический проброс\n"
+"домашнего каталога хоста в ВМ"
+
+msgid "Catalog connection"
+msgstr "Подключение каталога"
+
+msgid "Printer"
+msgstr "Принтер"
+
+msgid "Automatic forwarding\n"
+"default printer host in VM"
+msgstr "Автоматический проброс\n"
+"принтера по умолчанию хоста в ВМ"
+
+msgid "Automatic forwarding\n"
+"all host printers in VM"
+msgstr "Автоматический проброс\n"
+"всех принтеров хоста в ВМ"
+
+msgid "Printer connection"
+msgstr "Подключение принтера"
+
+msgid "Sound and microphone"
+msgstr "Звук и микрофон"
+
+msgid "Sound and microphone forwarding"
+msgstr "Проброс звука и микрофона"
+
+msgid "Cancel"
+msgstr "Отмена"
+
+msgid "Create"
+msgstr "Создать"
+
+msgid "Additionally"
+msgstr "Дополнительно"
+
+msgid "Connection name:"
+msgstr "Имя подключения:"
+
+msgid "Connection window appearance"
+msgstr "Оформление окна подключения"
+
+msgid "Window title"
+msgstr "Заголовок окна"
+
+msgid "Icon"
+msgstr "Иконка"
+
+msgid "Screen settings"
+msgstr "Настройка экрана"
+
+msgid "Original size"
+msgstr "Исходный размер"
+
+msgid "Client resolution"
+msgstr "Клиентское разрешение"
+
+msgid "Manually:"
+msgstr "Вручную:"
+
+msgid "by"
+msgstr "на"
+
+msgid "Palette:"
+msgstr "Палитра:"
+
+msgid "Remote connection mode"
+msgstr "Режим удалённого подключения"
+
+msgid "With desktop environment"
+msgstr "С окружением рабочего стола"
+
+msgid "No desktop environment. Launch application:"
+msgstr "Без окружения рабочего стола. Запуск приложения:"
+
+msgid "Devices"
+msgstr "Устройства"
+
+msgid "Add"
+msgstr "Добавить"
+
+msgid "Are you sure you want to create a shortcut?"
+msgstr "Вы уверены, что хотите создать ярлык?"
+
+msgid "Confirm"
+msgstr "Подтвердить"
+
+msgid "Path:"
+msgstr "Путь:"
+
+msgid "Folder name:"
+msgstr "Имя папки:"
+
+msgid "Read Only"
+msgstr "Только для чтения (Read Only)"
+
+msgid "Automount"
+msgstr "Автоматическое монтирование"
+
+msgid "Mount point:"
+msgstr "Точка монтирования:"
+
+msgid "Save"
+msgstr "Сохранить"
+
+msgid "VM autorun settings"
+msgstr "Настройка автозапуска ВМ"
+
+msgid "Set property connection"
+msgstr "Настройка сервера подключения"
+
+msgid "Autorun"
+msgstr "Автозапуск"
+
+msgid "Autorun type:"
+msgstr "Тип запуска:"
+
+msgid "Port:"
+msgstr "Порт:"
+
+msgid "Timeout:"
+msgstr "Таймаут:"
+
+msgid "Authorization:"
+msgstr "Авторизация:"
+
+msgid "Multi-User Remote Access"
+msgstr "Многопользовательский удалённый доступ"
+
+msgid "Setting the network connection type"
+msgstr "Настройка типа сетевого подключения"
+
+msgid "Bridge"
+msgstr "Мост"
+
+msgid "Port forwarding"
+msgstr "Проброс портов"
+
+msgid "USB-devices"
+msgstr "USB-устройства"
+
+msgid "Shared catalogs"
+msgstr "Общие каталоги"
+
+msgid "Save settings"
+msgstr "Сохранить настройки"
+
+msgid "Name"
+msgstr "Имя"
+
+msgid "Protocol"
+msgstr "Протокол"
+
+msgid "Host address"
+msgstr "Адрес хоста"
+
+msgid "Host port"
+msgstr "Порт хоста"
+
+msgid "Guest address"
+msgstr "Адрес гостя"
+
+msgid "Guest port"
+msgstr "Порт гостя"
+
+msgid "Accept"
+msgstr "Принять"
+
+msgid "Local connection"
+msgstr "Локальное подключение"
+
+msgid "Remote connection"
+msgstr "Удалённое подключение"
+
+msgid "VM Control"
+msgstr "Управление ВМ"
+
+msgid "Create connection shortcut"
+msgstr "Создать ярлык подключения"
+
+msgid "Create/edit\n"
+"connection shortcut"
+msgstr "Создать/редактировать\n"
+"ярлык подключения"
+
+msgid "Update list"
+msgstr "Обновить список"
+
+msgid "Enable"
+msgstr "Включить"
+
+msgid "Shutdown"
+msgstr "Выключить"
+
+msgid "Restart"
+msgstr "Перезагрузить"
+
+msgid "Save state"
+msgstr "Сохранить состояние"
+
+msgid "VirtualBox settings"
+msgstr "Настроить VirtualBox"
+
+msgid "Delete entry"
+msgstr "Удалить запись"
+
+msgid "Updating the list of connections..."
+msgstr "Обновляется список подключений..."
+
+msgid "Deleting"
+msgstr "Удаление"
+
+msgid "Are you sure you want to remove the device:"
+msgstr "Вы действительно хотите удалить устройство:"
+
+msgid "Virtual machine"
+msgstr "Виртуальная машина"
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "IP-address"
+msgstr "IP-адрес"
+
+msgid "Create VRDP connection shortcut"
+msgstr "Создать ярлык подключения VRDP"
+
+msgid "Create RDP connection shortcut"
+msgstr "Создать ярлык подключения RDP"
+
+msgid "Create RemoteApp connection shortcut"
+msgstr "Создать ярлык подключения RemoteApp"
+
+msgid "Add USB-device"
+msgstr "Добавить USB-устройство"
+
+msgid "Add shared folder"
+msgstr "Добавить общую папку"
+
+msgid "Add rule"
+msgstr "Добавление правила"
+
+msgid "Virtual machine settings (VirtualBox)"
+msgstr "Настройки виртуальной машины (VirtualBox)"
+
+msgid "Active"
+msgstr "Активно"
+
+msgid "Device"
+msgstr "Устройство"
+
+msgid "Path"
+msgstr "Путь"
+
+msgid "Access"
+msgstr "Доступ"
+
+msgid "Mount point"
+msgstr "Точка монтирования"
+
+msgid "New filter"
+msgstr "Новый фильтр"
+
+msgid "USB device added successfully"
+msgstr "USB-устройство успешно добавлено"
+
+msgid "Success!"
+msgstr "Успех!"
+
+msgid "To save changes, you must turn off the virtual machine"
+msgstr "Для сохранения изменений необходимо выключить виртуальную машину"
+
+msgid "Error"
+msgstr "Ошибка"
+
+msgid "After system start"
+msgstr "После старта системы"
+
+msgid "After user login"
+msgstr "После логина пользователя"
+
+msgid "Without authorization"
+msgstr "Без авторизации"
+
+msgid "External"
+msgstr "Внешняя"
+
+msgid "Confirm action"
+msgstr "Подтвердите действие"
+
+msgid "You must enter the address and connection name!"
+msgstr "Необходимо ввести адрес и имя подключения!"
+
+msgid "Please select a directory"
+msgstr "Пожалуйста, выберите директорию"
+
+msgid "You must enter the connection address!"
+msgstr "Необходимо ввести адрес подключения!"
+
+msgid "Edit shared folder settings"
+msgstr "Редактировать настройки общей папки"
+
+msgid "is incorrect"
+msgstr "неверный"

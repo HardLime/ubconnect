@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Exec=ubconnect.gtk
+Icon=ublinux-ubconnect
+Comment=Settings and creating shortcuts for remote desktop connection
+Comment[ru]=Настройка и создание ярлыков для подключения к удалённому рабочему столу
+Terminal=false
+Name=UBConnect
+Name[ru]=UBConnect
+GenericName=Settings and creating shortcuts for remote desktop connection
+GenericName[ru]=Настройка и создание ярлыков для подключения к удалённому рабочему столу
+Categories=XFCE;GTK;Settings;DesktopSettings;X-XFCE-SettingsDialog;X-XFCE-SystemSettings;

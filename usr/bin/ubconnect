@@ -1,0 +1,330 @@
+#! /usr/bin/env bash
+
+i18n() {
+    local key="$1"; shift
+    printf "$(gettext -s "$key")" "$@"
+}
+export -f i18n
+
+init(){
+    export TEXTDOMAIN="ubconnect"
+    export TEXTDOMAINDIR="/usr/share/locale"
+
+    LC_ALL="ru_RU.UTF-8"
+    LANG="ru_RU.UTF-8"
+    #LANGUAGE="en_US:en:ru_RU:ru"
+    LC_PAPER="en_US.UTF-8"
+    LESSCHARSET="utf-8"
+    MM_CHARSET="utf-8"
+}
+init 
+
+icon="ub_icon"
+
+remoteapp="off"
+
+for param in $@
+do
+    if [ "$param" == "--xfreerdp" ]; then
+        type="xfreerdp"
+        echo "$(i18n "xfreerdp syntax selected")"
+    fi
+    if [ "$param" == "--rdesktop" ]; then
+        type="rdesktop"
+        echo "$(i18n "rdesktop syntax selected")"
+    fi
+    if [ "$param" == "--rdesktop-vrdp" ]; then
+        type="rdesktop"
+        vrdp="on"
+        echo "$(i18n "rdesktop-vrdp syntax selected")"
+    fi
+    if [ "$param" == "--remoteapp" ]; then
+        remoteapp="on"
+        echo "$(i18n "remoteapp connection")"
+    fi
+    if [ "$param" == "--vboxseamless" ]; then
+        type="vboxseamless"
+        echo "$(i18n "vboxseamless connection")" #new_parametr
+    fi
+done
+
+port="3389"
+
+while [ -n "$1" ]
+do
+    case "$1" in
+        --ip) ip=$2
+        shift;;
+
+        --port) port=$2
+        shift;;
+
+        --domain) 
+            case "$type" in
+                xfreerdp) domen="/d:$2 ";;
+                rdesktop) domen="-d $2 ";;
+                esac
+        shift;;
+
+        --login)
+          login=$2
+            case "$type" in
+                xfreerdp) login="/u:$2 ";;
+                rdesktop) login="-u $2 ";;
+                esac
+        shift;;
+
+        --password)
+          password=$2
+            case "$type" in
+                xfreerdp) password="/p:$2 ";;
+                rdesktop) password="-p $2 ";;
+                esac
+        shift;;
+
+        --clientdisplay) 
+            case "$type" in
+                xfreerdp) clientdisplay="/f ";;
+                rdesktop) clientdisplay="-f ";;
+                esac
+            ;;
+        --geometry) 
+            case "$type" in
+                xfreerdp) geometry=$(awk -F 'x' '{printf "/w:%s /h:%s ", $1,$2}' <<<$2);;
+                rdesktop) geometry="-g $2 ";;
+                esac
+             echo $geometry
+        shift;;
+
+        --color) 
+            case "$type" in
+                xfreerdp) 
+                    case "$2" in
+                        1)color="/bpp:15 ";;
+                        2)color="/bpp:16 ";;
+                        3)color="/bpp:24 ";;
+                        4)color="/rfx ";;
+                        5)color="/gfx +gfx-progressive ";;
+                        6)color="/gfx:AVC420 ";;
+                        7)color="/gfx-h264 ";;
+                        *)echo -en "$(i18n "Invalid palette settings, set to default")"
+                    esac;;
+                rdesktop) 
+                    case "$2" in
+                        1)color="-a 15 ";;
+                        2)color="-a 16 ";;
+                        3)color="-a 24 ";; 
+                        4)color="-a 32 ";;
+                        *)echo -en "$(i18n "Invalid palette settings, set to default")"
+                    esac;;
+                esac
+        shift;;
+
+        --mounthome) 
+            case "$type" in
+                xfreerdp) mounthome="/drive:home,\"$HOME\" ";;
+                rdesktop) mounthome="-r disk:home=\"$HOME\" ";;
+            esac;;
+
+        --mountcatalog)
+            papkaname=$(awk -F '/' '{print $NF}' <<<$2)
+            case "$type" in
+                xfreerdp) mountcatalog="/drive:\"$papkaname\",\"$2\" ";;
+                rdesktop) mountcatalog="-r disk:\"$papkaname\"=\"$2\" ";;
+            esac
+        shift;;
+
+        --defaultprinter) 
+            printer=$(lpstat -d)
+            if [ "$printer" == "Нет назначение системы по умолчанию" ];
+            then
+                echo -e "$(i18n "Can't find default printer, parameter ignored!")"
+            else
+                printername=$(awk -F ': ' '{print $2}' <<< $printer)
+                case "$type" in
+                    xfreerdp) defaultprinter="/printer:\"$printername\" ";;
+                    rdesktop) defaultprinter="-r printer:\"$printername\" ";;
+                esac
+            fi
+        shift;;
+
+        --allprinters) 
+            case "$type" in
+                xfreerdp) allprinters="/printer ";;
+                rdesktop) allprinters="-r printer ";;
+            esac
+            echo "$(i18n "All printers are forwarded")\n";;
+
+        --printer) 
+            case "$type" in
+                xfreerdp) customprinter="/printer:\"$2\" ";;
+                rdesktop) customprinter="-r printer:\"$2\" ";;
+            esac
+        shift;;
+
+        --audio)
+            case "$type" in
+                xfreerdp) audio="/sound ";;
+                rdesktop) audio="-r sound ";;
+            esac ;;
+
+        --windowtitle)
+            case "$type" in
+                xfreerdp) windowtitle="/t:\"$2\" ";;
+                rdesktop) windowtitle="-T \"$2\" ";;
+            esac 
+        shift;;
+
+        --appstart)
+            apppath=$2
+            case "$type" in
+                xfreerdp) 
+                    if [ "$remoteapp" == "on" ];
+                    then
+                        appstart="/app:\"$2\" "
+                    else
+                        appstart="/shell:\"$2\" "
+                    fi;;
+                rdesktop) 
+                    if [ "$remoteapp" == "off" ];
+                    then
+                        appstart="-s \"$2\" "
+                    else
+                        appstart="-A \"C:/srdp/seamlessrdpshell.exe $2\" "
+                    fi;;
+            esac 
+        shift;;
+        
+        --icon)
+            icon=$2
+        shift;;
+
+        --certignore)
+            case "$type" in
+                xfreerdp) certignore="/cert-ignore ";;
+                rdesktop) certignore="";;
+            esac ;;
+
+        --filepath)
+        flag=1
+        FilePath=$2
+
+        shift;;
+        --name)
+            connectname=$2
+
+        shift;;
+        --vmname)
+            vmname=$2
+          shift;;
+        --xfreerdp);;
+        --vboxseamless);;
+        --rdesktop);;
+        --remoteapp);;
+        --rdesktop-vrdp);;
+        --help) 
+        echo "$(i18n "helptext")"
+        exit
+        shift;;
+
+        
+        *) echo "$1 $(i18n "parameter is incorrect")"
+           echo "$(i18n "helptext")"
+           exit;;
+    esac
+    shift
+done
+
+
+if [ "$ip" == "" ];
+then
+  if [ "$type" != "vboxseamless" ];
+  then
+    echo "--ip - $(i18n "parameter is required")"
+    exit
+  fi
+fi
+if [ "$type" == "vboxseamless" ];
+then
+  if [ "$vmname" == "" ];
+  then
+      echo "--vmname - $(i18n "parameter is required")"
+      exit
+  fi
+  if [ ! -n "$appstart" ];
+  then
+    if [ ! -n "$login" ] && [ ! -n "$password" ]; then
+        echo "$(i18n "for start app, you need send login and password")"
+        exit
+    fi
+  fi
+fi
+
+if [ "$connectname" == "" ];
+then 
+    echo "--name - $(i18n "parameter is required")"
+    exit
+fi
+
+if [ "$type" == "" ];
+then 
+    echo "$(i18n "Set a connection client (--xfreerdp, --rdesktop, --rdesktop-vrdp, --vboxseamless)")" #new_parametr
+    exit
+fi
+
+if [ "$FilePath" == "" ];
+then 
+    echo "$(i18n "The shortcut will be saved to the desktop.")"
+    FilePath="$HOME/Рабочий стол"
+fi
+
+if [ "$remoteapp" == "on" ];
+then
+    echo "$(i18n "Permission settings are not available in RemoteApp mode")"
+    clientdisplay=""
+    geometry=""
+fi
+
+if [ "$vrdp" == "on" ];
+then
+    echo "$(i18n "Using RemoteApp + VRDP is not available, parametrs --remoteapp, --appstart was ignored")"
+fi
+if [ "$type" == "xfreerdp" ]; 
+then
+    stringConnection="xfreerdp $login$password$domen$clientdisplay$geometry$certignore$color$mounthome$mountcatalog$defaultprinter$allprinters$customprinter$audio$windowtitle$appstart/v:$ip:$port"
+fi
+if [ "$type" == "rdesktop" ]; 
+then
+    stringConnection="rdesktop $login$password$domen$clientdisplay$geometry$color$mounthome$mountcatalog$defaultprinter$allprinters$customprinter$audio$windowtitle$appstart$ip:$port"
+fi
+if [ "$vrdp" == "on" ]; 
+then
+    stringConnection="rdesktop-vrdp $login$password$domen$clientdisplay$geometry$color$mounthome$mountcatalog$defaultprinter$allprinters$customprinter$audio$windowtitle$ip:$port"
+fi
+if [ "$type" == "vboxseamless" ];
+then
+    stringConnection="bash -c 'vm=\"${vmname}\" ;backup=\$(VBoxManage showvminfo \"\$vm\" | grep \"Session name:\"); echo \"\$backup\" | tee<(VBoxManage controlvm \"\$vm\" savestate; /usr/lib/virtualbox/VirtualBoxVM --comment \"\$vm\" --startvm \"\$vm\" --no-startvm-errormsgbox --seamless) <(for((;;)); do str=\$(VBoxManage guestproperty enumerate \"\$vm\" | grep NoLoggedInUsers); sleep 3 | [[ \"\$str\" == *\"false\"* ]] && VBoxManage guestcontrol \"\$vm\" run --exe \"C:\\\Windows\\\System32\\\notepad.exe\" --username \"superadmin\" --password \"ublinux\" && break; done; VBoxManage controlvm \"\$vm\" savestate; [[ \"\$backup\" == *\"GUI\"* ]] && /usr/lib/virtualbox/VirtualBoxVM --comment \"\$vm\" --startvm \"\$vm\" --normal || /usr/lib/virtualbox/VirtualBoxVM --comment \"\$vm\" --startvm \"\$vm\" --separate --scale ; exit 0)'"
+fi
+if [ -f "$FilePath/$connectname.desktop" ];
+then
+    read -p "$(i18n "The file already exists. Enter yes to overwrite the file:")" yes
+    if [ "$yes" != "yes" ];
+    then
+        echo "$(i18n "Operation canceled")"
+        exit
+    fi
+fi
+
+echo "[Desktop Entry]
+Type=Application
+Categories=System;Utility;
+Exec=$stringConnection
+Terminal=false
+StartupNotify=true
+Name=$connectname
+Icon=$icon
+Comment=\"Запуск приложения\"
+NoDisplay=false
+Hidden=false" > "$FilePath/$connectname.desktop"; 
+chmod +x "$FilePath/$connectname.desktop";
+echo ""

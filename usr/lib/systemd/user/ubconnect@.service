@@ -1,0 +1,15 @@
+Description=Virtual Box Guest %I
+After=network.target vboxdrv.service virtualbox.service
+Before=runlevel2.target shutdown.target
+[Service]
+Type=forking
+Restart=no
+TimeoutSec=5min
+IgnoreSIGPIPE=no
+KillMode=process
+GuessMainPID=no
+RemainAfterExit=yes
+ExecStart=/usr/bin/VBoxManage startvm '%I' --type headless
+ExecStop=/usr/bin/VBoxManage controlvm '%I' acpipowerbutton
+[Install]
+WantedBy=default.target

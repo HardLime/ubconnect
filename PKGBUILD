@@ -35,6 +35,7 @@ package() {
     install -dm755 "${pkgdir}/usr/share/"${pkgname}"/images"
     install -dm755 "${pkgdir}/usr/lib/systemd/user"
     install -dm755 "${pkgdir}/memory/data/from/0/ublinux-data"
+    install -dm755 "${pkgdir}/memory/data/from/0/ublinux-data/modules"
     install -dm755 "${pkgdir}/usr/share/locale"
     install -dm755 "${pkgdir}/usr/share/locale/ru"
     install -dm755 "${pkgdir}/usr/share/locale/ru/LC_MESSAGES"
@@ -72,4 +73,5 @@ package() {
 
 #     install -Dv "${srcdir}/${pkgname}"/usr/share/polkit-1/actions/* "${pkgdir}"/usr/share/polkit-1/actions
     install -Dvm774 --group=users "${srcdir}/${pkgname}"/memory/data/from/0/ublinux-data/* "${pkgdir}/memory/data/from/0/ublinux-data"
+    install -Dvm774 --group=users "${srcdir}/${pkgname}"/memory/data/from/0/ublinux-data/modules/vboxapi.pfs "${pkgdir}/memory/data/from/0/ublinux-data/modules"
 }

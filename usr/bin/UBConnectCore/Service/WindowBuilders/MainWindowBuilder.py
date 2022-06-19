@@ -12,12 +12,16 @@ import virtualbox
 import gi
 from UBConnectCore.Service.WindowBuilders.Conf.SettingsModule import Settings, ConnectSettings
 from UBConnectCore.Service.WindowBuilders.MainWindowEventHandler import EventHandler
+from gi.repository.GLib import Thread
+
+
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
 translate = gettext.translation("ubconnect", '/usr/share/locale', fallback=True)
 i18n = translate.gettext
+
 
 class MainWindowBuilder:
     def __init__(self):
@@ -44,7 +48,6 @@ class MainWindowBuilder:
         self.select_local = 1
         self.fill_tv_vms()
         self.wait_window = self.builder.get_object("wait_window")
-        self.start_update()
 
         self.lblLocalConnmain = self.builder.get_object("lblLocalConnmain")
         self.lblRemoteConnmain = self.builder.get_object("lblRemoteConnmain")
@@ -66,20 +69,29 @@ class MainWindowBuilder:
         self.lblUpdateRemoteListmain = self.builder.get_object("lblUpdateRemoteListmain")
         self.waitText = self.builder.get_object("waitText")
 
+        self.pid = None
         self.update_translations()
+        self.start_update()
 
     def check_status(self, ip):
         return subprocess.getoutput(f"ping -c 1 {ip} -w 1 1>/dev/null; [ $? == \"0\" ] && echo \"work\"")
 
     def start_update(self):
         self.main_window.set_sensitive(False)
-        self.wait_window.show()
+
+        self.pid = subprocess.Popen(["zenity", "--progress", "--pulsate", "--no-cancel"]).pid
+
         thread = threading.Thread(target=self.fill_tv_vms_remote, daemon=True)
         thread.start()
 
-    def fill_tv_vms_remote(self):
+        thread.join()
 
+
+
+
+    def fill_tv_vms_remote(self):
         vms_setting_list = Settings().getConnectList()
+
         i = 0
         for vm in vms_setting_list:
             print(self.check_status(vm.ip))
@@ -88,8 +100,10 @@ class MainWindowBuilder:
             else:
                 self.list_store_remote.append([i + 1, vm.connectname, False, vm.ip])
             i = i + 1
+
+        subprocess.getoutput(f"kill {self.pid}")
         self.main_window.set_sensitive(True)
-        self.wait_window.hide()
+
 
     def gener(self):
         text_renderer = Gtk.CellRendererText()

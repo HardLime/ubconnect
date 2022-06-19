@@ -2,3 +2,8 @@
 /shelf/
 /workspace.xml
 __pycache__
+pkg/
+src/
+ubconnect/
+pyvenv.cfg
+ubconnect-1.0-1-any.pkg.tar.zst

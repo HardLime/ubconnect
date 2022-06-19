@@ -3,8 +3,8 @@ pkgver=1.0
 pkgrel=1
 pkgdesc="Settings and creating shortcuts for remote desktop connection"
 arch=('any')
-#url="https://github.com/HardLime/${pkgname}"
-url="https://github.com/HardLime/rabotaNEwork"
+url="https://github.com/HardLime/${pkgname}"
+#url="https://github.com/HardLime/rabotaNEwork"
 license=('GPL')
 depends=(
     'pacman>5'
@@ -15,7 +15,7 @@ depends=(
 optdepends=(
     'alsa-utils: manipulate audio devices'
 )
-source=("$pkgname::git+${url}.git#branch=master")
+source=("$pkgname::git+${url}.git#branch=main")
 sha256sums=('SKIP')
 
 pkgver() {

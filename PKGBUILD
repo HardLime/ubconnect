@@ -61,6 +61,7 @@ package() {
     install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/WindowBuilders/Local/LocalRdpWindow.py "${pkgdir}/usr/bin/UBConnectCore/Service/WindowBuilders/Local"
     install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/WindowBuilders/Local/LocalRemoteWindow.py "${pkgdir}/usr/bin/UBConnectCore/Service/WindowBuilders/Local"
     install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/WindowBuilders/Local/LocalVrdpWindow.py "${pkgdir}/usr/bin/UBConnectCore/Service/WindowBuilders/Local"
+    install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/WindowBuilders/Local/LocalSeamless.py "${pkgdir}/usr/bin/UBConnectCore/Service/WindowBuilders/Local"
     install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/WindowBuilders/Remoat/RemoatRdpWindow.py "${pkgdir}/usr/bin/UBConnectCore/Service/WindowBuilders/Remoat"
     install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/WindowBuilders/Remoat/RemoatVrdpWindow.py "${pkgdir}/usr/bin/UBConnectCore/Service/WindowBuilders/Remoat"
     install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/WindowBuilders/Remoat/RemoteRemoteWindow.py "${pkgdir}/usr/bin/UBConnectCore/Service/WindowBuilders/Remoat"

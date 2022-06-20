@@ -19,6 +19,7 @@ from gi.repository import Gtk
 translate = gettext.translation("ubconnect", '/usr/share/locale', fallback=True)
 i18n = translate.gettext
 
+
 class RemoteRdpWindow:
     def __init__(self, connect_select, context):
         self.language_sys = locale.getdefaultlocale()
@@ -258,19 +259,24 @@ class RemoteRdpWindow:
             if exists(f"{desktop}/{self.connect_name.get_text()}.desktop"):
                 msgTitle = i18n("Confirm action")
                 msgText = i18n("The file already exists. Enter yes to overwrite the file:")
-                yes = subprocess.getoutput(f"zenity --entry --title \"{msgTitle}\"--icon-name=\"info\" --text \"{msgText}\"")
+                yes = subprocess.getoutput(
+                    f"zenity --entry --title \"{msgTitle}\" --icon-name=\"info\" --text \"{msgText}\"")
                 subprocess.getoutput(f"echo {yes} | {connectionstring} --{self.connect_client}")
+                if (yes == "yes"):
+                    DialogSuccess("The shortcut is saved on the desktop!").show()
+                    self.change_ok()
             else:
                 subprocess.getoutput(f"{connectionstring} --{self.connect_client}")
-
-            self.get_new_settings()
-            DialogSuccess("The shortcut is saved on the desktop!").show()
-            self.contextMain.list_store_remote.clear()
-            self.contextMain.start_update()
-            self.second_win.destroy()
+                DialogSuccess("The shortcut is saved on the desktop!").show()
+                self.change_ok()
         else:
             DialogError("You must enter the address and connection name!").show()
 
+    def change_ok(self):
+        self.get_new_settings()
+        self.contextMain.list_store_remote.clear()
+        self.contextMain.start_update()
+        self.second_win.destroy()
 
     def change_color(self, widget):
         self.store1.clear()
@@ -376,8 +382,6 @@ class RemoteRdpWindow:
         newsettings.displaycolor = self.color
         newsettings.connecttype = "RDP"
         Settings().writeSettings(newsettings)
-        self.contextMain.list_store_remote.clear()
-        self.contextMain.fill_tv_vms_remote()
         self.connect_select = None
 
     def ok_ip(self, widget):
@@ -411,8 +415,10 @@ class RemoteRdpWindow:
         self.builder.get_object("lblAutoHomeForwrdp2").set_label(i18n("Auto forwarding\nhome directory of host in VM"))
         self.builder.get_object("lblConnCatalogrdp2").set_label(i18n("Catalog connection"))
         self.builder.get_object("lblPrinterrdp2").set_label(i18n("Printer"))
-        self.builder.get_object("lblAutoForwDefaultPrinterrdp2").set_label(i18n("Automatic forwarding\ndefault printer host in VM"))
-        self.builder.get_object("lblAutoForwAllPrintersrdp2").set_label(i18n("Automatic forwarding\nall host printers in VM"))
+        self.builder.get_object("lblAutoForwDefaultPrinterrdp2").set_label(
+            i18n("Automatic forwarding\ndefault printer host in VM"))
+        self.builder.get_object("lblAutoForwAllPrintersrdp2").set_label(
+            i18n("Automatic forwarding\nall host printers in VM"))
         self.builder.get_object("lblConnPrinterrdp2").set_label(i18n("Printer connection"))
         self.builder.get_object("lblSoundMicrordp2").set_label(i18n("Sound and microphone"))
         self.builder.get_object("lblForwSoundAndMicrordp2").set_label(i18n("Sound and microphone forwarding"))
@@ -435,12 +441,12 @@ class EventHandler:
     def close_remote_rdp(self, test):
         self.context.second_win.destroy()
 
-
-# NEW (Короче, такое же должно быть во всехподключениях)
+    # NEW (Короче, такое же должно быть во всехподключениях)
     def remote_rdp_btn_browse_clicked_cb(self, but):
         root = tkinter.Tk()
         root.withdraw()
-        self.context.path = filedialog.askdirectory(parent=root, initialdir="/", title=i18n("Please select a directory"))
+        self.context.path = filedialog.askdirectory(parent=root, initialdir="/",
+                                                    title=i18n("Please select a directory"))
         self.context.folder_custom_path.set_text(self.context.path)
 
     def remote_rdp_cb_connect_folder_clicked_cb(self, cb):
@@ -450,6 +456,8 @@ class EventHandler:
 
     def cvm_btn_show_pass_clicked_cb(self, button):
         self.context.password.set_visibility(not self.context.password.get_visibility())
+
+
 if __name__ == '__main__':
     main = RemoteRdpWindow()
     Gtk.main()

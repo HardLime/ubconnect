@@ -78,7 +78,9 @@ class EventHandler:
                 hashes.append(item.id_p)
             self.selected_vm = hashes[row_num]
             self.machine = self.vm.find_machine(self.selected_vm)
-
+        else:
+            self.btn_config.set_sensitive(False)
+            self.btn_turn_on.set_sensitive(False)
     def start_vm(self, widget):
         subprocess.getoutput(f"VBoxManage startvm {self.machine.id_p} --type headless")
 

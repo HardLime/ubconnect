@@ -16,6 +16,7 @@ from gi.repository import Gtk
 translate = gettext.translation("ubconnect", '/usr/share/locale', fallback=True)
 i18n = translate.gettext
 
+
 class UsbDevice:
     def __init__(self, index, active, filter_name, vendor_id, product_id, product_name):
         self.index = index
@@ -38,6 +39,8 @@ class ConfigVmWindow:
         self.password = self.builder.get_object("cvm_entry_password")
         self.cvm_entry_port = self.builder.get_object("cvm_entry_port")
         self.cvm_entry_port.connect("changed", self.ok_port)
+        self.cvm_entry_port.set_text(subprocess.getoutput(
+            f"VBoxManage showvminfo \"{self.vmthis}\" | grep TCP/Ports | awk -F '= ' '{{print $2}}' | awk -F '\"' '{{print $2}}'"))
         self.remote_access = self.builder.get_object("cvm_cb_remote_access")
         self.second_win = self.builder.get_object("configvm")
         self.usb_tv = self.builder.get_object("cvm_usb_tv")
@@ -68,12 +71,15 @@ class ConfigVmWindow:
                 widget.set_text(entry[0:-1])
 
     def net_load(self):
-        if(subprocess.getstatusoutput(f"VBoxManage showvminfo \"{self.vmthis}\" | grep \"Bridged Interface\"")[0] == 0):
+        if (subprocess.getstatusoutput(f"VBoxManage showvminfo \"{self.vmthis}\" | grep \"Bridged Interface\"")[
+            0] == 0):
             self.brige.set_active(True)
         else:
             self.nat.set_active(True)
 
-        if(subprocess.getoutput(f"VBoxManage showvminfo \"{self.vmthis}\" | grep \"Authentication type:\"").__contains__("null")):
+        if (
+        subprocess.getoutput(f"VBoxManage showvminfo \"{self.vmthis}\" | grep \"Authentication type:\"").__contains__(
+                "null")):
             self.auth_cmb.set_active_id("0")
         else:
             self.auth_cmb.set_active_id("1")
@@ -186,6 +192,7 @@ class ConfigVmWindow:
         self.builder.get_object("lblSaveSettconfigvm").set_label(i18n("Save settings"))
         self.builder.get_object("configvm").set_title(i18n("Virtual machine settings (VirtualBox)"))
 
+
 class EventHandler:
 
     def __init__(self, context):
@@ -200,6 +207,7 @@ class EventHandler:
         password = self.context.password.get_text()
         port = self.context.cvm_entry_port.get_text()
         if f"{self.vm}" not in subprocess.getoutput(f"VBoxManage list runningvms"):
+            if port == "": port = "0"
             subprocess.getoutput(f"VBoxManage modifyvm \"{self.vm}\" --vrdeport {port}")
             if self.auth_type == "0":
                 subprocess.getoutput(f"VBoxManage modifyvm \"{self.vm}\" --vrdeauthtype null")
@@ -211,8 +219,6 @@ class EventHandler:
                     f"VBoxManage setextradata \"{self.vm}\" \"VBoxAuthSimple/users/{login}\" \"{passhash}\"")
         else:
             DialogError("To save changes, you must turn off the virtual machine").show()
-
-
 
     def autorun_change(self):
         if self.context.autorun_check.get_active():
@@ -273,13 +279,15 @@ class EventHandler:
     def cvm_btn_add_usb_clicked_cb(self, widget):
         dialog = AddUsb()
         try:
-            lastid = int(subprocess.getoutput(f"VBoxManage showvminfo \"{self.context.vmthis}\" | grep Index | awk -F ':                       ' '{{print $2}}'").split("\n")[-1]) + 1
+            lastid = int(subprocess.getoutput(
+                f"VBoxManage showvminfo \"{self.context.vmthis}\" | grep Index | awk -F ':                       ' '{{print $2}}'").split(
+                "\n")[-1]) + 1
         except:
             lastid = 0
 
         if dialog.response_type == Gtk.ResponseType.OK:
             for el in dialog.get_result():
-                #print("" + self.Select_USB)
+                # print("" + self.Select_USB)
                 print(dialog.get_result())
                 last_iter = self.get_iter_last(self.context.Direct_TreeView_USB_List)
                 id = lastid if last_iter is None else self.context.Direct_TreeView_USB_List[last_iter][4] + 1
@@ -327,9 +335,6 @@ class EventHandler:
         #     self.usb_prod_id_down = self.vm.usb_device_filters.device_filters[self.row+1].product_id
         #     self.usb_active_down = self.vm.usb_device_filters.device_filters[self.row+1].active
 
-
-
-
     def cvm_btn_delete_usb_clicked_cb(self, widget):
         vm = str(self.context.vmthis)
         print(vm)
@@ -362,7 +367,6 @@ class EventHandler:
                     f"VBoxManage usbfilter add {flag} --target \"{str(self.context.vmthis)}\" --name '{self.usb_name}'"
                     f" --action hold --vendorid {self.usb_vend} --productid {self.usb_prod_id}")
 
-
         self.context.list_usb.clear()
         self.context.fill_tv_usb()
 
@@ -380,7 +384,6 @@ class EventHandler:
 
         self.context.list_usb.clear()
         self.context.fill_tv_usb()
-
 
     def cvm_btn_rec_clicked_cb(self, widget):
         # try:
@@ -416,8 +419,8 @@ class EventHandler:
             f"VBoxManage usbfilter add {index} --target {name_vm} --name '{newFilterName} {index}'  --action hold")
 
     def cvm_btn_save_config_clicked_cb(self, widget):
-        if(self.auth_type != "0"):
-            if(self.context.login.get_text() and self.context.password.get_text()):
+        if (self.auth_type != "0"):
+            if (self.context.login.get_text() and self.context.password.get_text()):
                 self.save_vrde_settings()
             else:
                 dialog = Gtk.MessageDialog(

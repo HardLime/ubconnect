@@ -222,19 +222,23 @@ class RemoteVrdpWindow:
             if exists(f"{desktop}/{self.connect_name.get_text()}.desktop"):
                 msgTitle = i18n("Confirm action")
                 msgText = i18n("The file already exists. Enter yes to overwrite the file:")
-                yes = subprocess.getoutput(f"zenity --entry --title \"{msgTitle}\"--icon-name=\"info\" --text \"{msgText}\"")
+                yes = subprocess.getoutput(f"zenity --entry --title \"{msgTitle}\" --icon-name=\"info\" --text \"{msgText}\"")
                 subprocess.getoutput(f"echo {yes} | {connectionstring} --rdesktop-vrdp")
+                if(yes == "yes"):
+                    DialogSuccess("The shortcut is saved on the desktop!").show()
+                    self.change_ok()
             else:
                 subprocess.getoutput(f"{connectionstring} --rdesktop-vrdp")
-
-            self.get_new_settings()
-            self.contextMain.list_store_remote.clear()
-            DialogSuccess("The shortcut is saved on the desktop!").show()
-            self.contextMain.start_update()
-            self.second_win.destroy()
+                DialogSuccess("The shortcut is saved on the desktop!").show()
+                self.change_ok()
         else:
             DialogError("You must enter the address and connection name!").show()
 
+    def change_ok(self):
+        self.get_new_settings()
+        self.contextMain.list_store_remote.clear()
+        self.contextMain.start_update()
+        self.second_win.destroy()
 
     def get_new_settings(self):
         newsettings = ConnectSettings()

@@ -151,6 +151,7 @@ class MainWindowBuilder:
 
     def fill_tv_vms(self):
         i = 0
+
         if subprocess.getoutput("VBoxManage list vms"):
             machines = subprocess.getoutput("v=$(VBoxManage list vms);awk -F\'\"\' \'{print $2}\' <<< $v").split("\n")
             running_machines = subprocess.getoutput(

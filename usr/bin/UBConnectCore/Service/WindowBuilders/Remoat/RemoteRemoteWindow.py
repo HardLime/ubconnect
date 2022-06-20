@@ -179,16 +179,21 @@ class RemoteRemoteWindow:
                 msgText = i18n("The file already exists. Enter yes to overwrite the file:")
                 yes = subprocess.getoutput(f"zenity --entry --title \"{msgTitle}\" --icon-name=\"info\" --text \"{msgText}\"")
                 subprocess.getoutput(f"echo {yes} | {connectionstring} --{self.connect_client}")
+                if(yes == "yes"):
+                    DialogSuccess("The shortcut is saved on the desktop!").show()
+                    self.change_ok()
             else:
                 subprocess.getoutput(f"{connectionstring} --{self.connect_client} --remoteapp")
-            self.get_new_settings()
-            self.contextMain.list_store_remote.clear()
-            DialogSuccess("The shortcut is saved on the desktop!").show()
-            self.contextMain.start_update()
-            self.second_win.destroy()
+                DialogSuccess("The shortcut is saved on the desktop!").show()
+                self.change_ok()
         else:
             DialogError("You must enter the address and connection name!").show()
 
+    def change_ok(self):
+        self.get_new_settings()
+        self.contextMain.list_store_remote.clear()
+        self.contextMain.start_update()
+        self.second_win.destroy()
 
     def get_new_settings(self):
         newsettings = ConnectSettings()
@@ -247,18 +252,7 @@ class RemoteRemoteWindow:
 
         newsettings.connecttype = "RA"
         Settings().writeSettings(newsettings)
-        self.contextMain.list_store_remote.clear()
-        dialog = Gtk.MessageDialog(
-            transient_for=self.second_win,
-            flags=0,
-            message_type=Gtk.MessageType.INFO,
-            buttons=Gtk.ButtonsType.OK,
-            text=i18n("Success"),
-        )
-        dialog.format_secondary_text(i18n("The shortcut is saved on the desktop!"))
-        dialog.run()
-        dialog.destroy()
-        self.contextMain.fill_tv_vms_remote()
+
         self.connect_select = None
 
     def ok_ip(self, widget):

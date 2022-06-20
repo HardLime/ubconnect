@@ -45,7 +45,7 @@ package() {
 
     install -Dv "${srcdir}/${pkgname}"/usr/bin/ubconnect "${pkgdir}"/usr/bin
     install -Dv "${srcdir}/${pkgname}"/usr/bin/ubconnect.gtk "${pkgdir}"/usr/bin
-    install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/scripts/* "${pkgdir}/usr/bin/UBConnectCore/scripts"
+    install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/scripts/autorun.sh "${pkgdir}/usr/bin/UBConnectCore/scripts"
     install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/VM.py "${pkgdir}/usr/bin/UBConnectCore/Service"
     install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/WindowBuilders/ConfigVmWindow.py "${pkgdir}/usr/bin/UBConnectCore/Service/WindowBuilders"
     install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/WindowBuilders/MainWindowBuilder.py "${pkgdir}/usr/bin/UBConnectCore/Service/WindowBuilders"
@@ -64,14 +64,15 @@ package() {
     install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/WindowBuilders/Remoat/RemoatRdpWindow.py "${pkgdir}/usr/bin/UBConnectCore/Service/WindowBuilders/Remoat"
     install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/WindowBuilders/Remoat/RemoatVrdpWindow.py "${pkgdir}/usr/bin/UBConnectCore/Service/WindowBuilders/Remoat"
     install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/WindowBuilders/Remoat/RemoteRemoteWindow.py "${pkgdir}/usr/bin/UBConnectCore/Service/WindowBuilders/Remoat"
-    install -Dv "${srcdir}/${pkgname}"/usr/share/applications/* "${pkgdir}/usr/share/applications"
-    install -Dv "${srcdir}/${pkgname}"/usr/share/${pkgname}/ui/* "${pkgdir}/usr/share/${pkgname}/ui"
-    install -Dv "${srcdir}/${pkgname}"/usr/share/${pkgname}/images/* "${pkgdir}/usr/share/${pkgname}/images"
-    install -Dv "${srcdir}/${pkgname}"/usr/lib/systemd/user/* "${pkgdir}/usr/lib/systemd/user"
+    install -Dv "${srcdir}/${pkgname}"/usr/share/applications/ubconnect.desktop "${pkgdir}/usr/share/applications"
+    install -Dv "${srcdir}/${pkgname}"/usr/share/${pkgname}/ui/ubconnect.glade "${pkgdir}/usr/share/${pkgname}/ui"
+    install -Dv "${srcdir}/${pkgname}"/usr/share/${pkgname}/images/ubc_side_bar.png "${pkgdir}/usr/share/${pkgname}/images"
+    install -Dv "${srcdir}/${pkgname}"/usr/share/${pkgname}/images/ubc_side_bar_dark.png "${pkgdir}/usr/share/${pkgname}/images"
+    install -Dv "${srcdir}/${pkgname}"/usr/lib/systemd/user/ubconnect@.service "${pkgdir}/usr/lib/systemd/user"
     install -Dv "${srcdir}/${pkgname}"/usr/share/locale/ru/LC_MESSAGES/ubconnect.mo "${pkgdir}/usr/share/locale/ru/LC_MESSAGES"
     install -Dv "${srcdir}/${pkgname}"/usr/share/locale/en/LC_MESSAGES/ubconnect.mo "${pkgdir}/usr/share/locale/en/LC_MESSAGES"
 
 #     install -Dv "${srcdir}/${pkgname}"/usr/share/polkit-1/actions/* "${pkgdir}"/usr/share/polkit-1/actions
-    install -Dvm774 --group=users "${srcdir}/${pkgname}"/memory/data/from/0/ublinux-data/* "${pkgdir}/memory/data/from/0/ublinux-data"
+    install -Dvm774 --group=users "${srcdir}/${pkgname}"/memory/data/from/0/ublinux-data/ubconnect.ini "${pkgdir}/memory/data/from/0/ublinux-data"
     install -Dvm774 --group=users "${srcdir}/${pkgname}"/memory/data/from/0/ublinux-data/modules/vboxapi.pfs "${pkgdir}/memory/data/from/0/ublinux-data/modules"
 }

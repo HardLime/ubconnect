@@ -190,5 +190,5 @@ class MainWindowBuilder:
         self.lblDeleteRemoteVMmain.set_label(i18n("Delete entry"))
         self.lblCreateEditShortcutRemotemain.set_label(i18n("Create/edit\nconnection shortcut"))
         self.lblUpdateRemoteListmain.set_label(i18n("Update list"))
-        self.waitText.set_label(i18n("Updating the list of connections..."))
+#        self.waitText.set_label(i18n("Updating the list of connections..."))
 

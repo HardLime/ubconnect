@@ -39,6 +39,7 @@ class LocalRemoteWindow:
         self.port_entry.connect("changed", self.ok_ip)
         self.login = self.builder.get_object("local_ra_entry_login")
         self.password = self.builder.get_object("local_ra_entry_password")
+        self.password.set_visibility(False)
         self.domain = self.builder.get_object("local_ra_entry_domain")
         self.certignore = self.builder.get_object("local_ra_cb_ignore")
         self.connect_name = self.builder.get_object("local_ra_entry_conn_name")
@@ -213,7 +214,8 @@ class EventHandler:
         isActive = self.context.folder_custom.get_active()
         self.context.browse_button.set_sensitive(isActive)
         self.context.folder_custom_path.set_sensitive(isActive)
-
+    def cvm_btn_show_pass_clicked_cb(self, button):
+        self.context.password.set_visibility(not self.context.password.get_visibility())
 if __name__ == '__main__':
     main = LocalRemoteWindow()
     Gtk.main()

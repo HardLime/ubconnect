@@ -8,6 +8,8 @@ import subprocess
 from UBConnectCore.Service.WindowBuilders.Conf.AddUsb import AddUsb
 from UBConnectCore.Service.WindowBuilders.Conf.dialog_delete import DialogDelete
 
+from usr.bin.UBConnectCore.Service.WindowBuilders.Conf.Dialogs import DialogSuccess
+
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
@@ -35,6 +37,7 @@ class ConfigVmWindow:
         self.login = self.builder.get_object("cvm_entry_login")
         self.password = self.builder.get_object("cvm_entry_password")
         self.cvm_entry_port = self.builder.get_object("cvm_entry_port")
+        self.cvm_entry_port.connect("changed", self.ok_port)
         self.remote_access = self.builder.get_object("cvm_cb_remote_access")
         self.second_win = self.builder.get_object("configvm")
         self.usb_tv = self.builder.get_object("cvm_usb_tv")
@@ -43,6 +46,9 @@ class ConfigVmWindow:
         self.autorun_cmb = self.builder.get_object("cvm_cmb_run_type")
         self.autorun_check = self.builder.get_object("cvm_cb_autorun")
         self.auth_type_cmb = self.builder.get_object("auth_cmb")
+        self.brige = self.builder.get_object("cvm_rb_bridge")
+        self.nat = self.builder.get_object("cvm_rb_nat")
+
         self.Direct_TreeView_USB_List = Gtk.ListStore(bool, str, str, str, int)
         self.dd = self
         self.builder.connect_signals(EventHandler(self))
@@ -50,8 +56,27 @@ class ConfigVmWindow:
         self.usb_tv_gener()
         self.second_win.show()
         self.autorun_init()
+        self.net_load()
 
         self.update_translation()
+
+    def ok_port(self, widget):
+        entry = widget.get_text()
+        if entry != "":
+            temp = entry[-1]
+            if not temp.isdigit():
+                widget.set_text(entry[0:-1])
+
+    def net_load(self):
+        if(subprocess.getstatusoutput(f"VBoxManage showvminfo \"{self.vmthis}\" | grep \"Bridged Interface\"")[0] == 0):
+            self.brige.set_active(True)
+        else:
+            self.nat.set_active(True)
+
+        if(subprocess.getoutput(f"VBoxManage showvminfo \"{self.vmthis}\" | grep \"Authentication type:\"").__contains__("null")):
+            self.auth_cmb.set_active_id("0")
+        else:
+            self.auth_cmb.set_active_id("1")
 
     def autorun_init(self):
         self.autorun_check.set_active(False)
@@ -170,6 +195,7 @@ class EventHandler:
         self.auth_type = "0"
 
     def save_vrde_settings(self):
+
         login = self.context.login.get_text()
         password = self.context.password.get_text()
         port = self.context.cvm_entry_port.get_text()
@@ -194,6 +220,8 @@ class EventHandler:
             dialog.format_secondary_text(i18n("To save changes, you must turn off the virtual machine"))
             dialog.run()
             dialog.destroy()
+
+
 
     def autorun_change(self):
         if self.context.autorun_check.get_active():
@@ -397,18 +425,35 @@ class EventHandler:
             f"VBoxManage usbfilter add {index} --target {name_vm} --name '{newFilterName} {index}'  --action hold")
 
     def cvm_btn_save_config_clicked_cb(self, widget):
-        self.autorun_change()
-        self.save_vrde_settings()
+        if(self.auth_type != "0"):
+            if(self.context.login.get_text() and self.context.password.get_text()):
+                self.save_vrde_settings()
+            else:
+                dialog = Gtk.MessageDialog(
+                    transient_for=self.context.second_win,
+                    flags=0,
+                    message_type=Gtk.MessageType.ERROR,
+                    buttons=Gtk.ButtonsType.OK,
+                    text=i18n("Error"),
+                )
+                dialog.format_secondary_text(i18n("Enter login and password!"))
+                dialog.run()
+                dialog.destroy()
+                return
 
         if self.context.remote_access.get_active() is True:
             subprocess.getoutput(f"VBoxManage modifyvm \"{self.vm}\" --vrdemulticon on")
         else:
             subprocess.getoutput(f"VBoxManage modifyvm \"{self.vm}\" --vrdemulticon off")
 
-        text = subprocess.getoutput(f"d=$(v=$(VBoxManage showvminfo \"{self.vm}\" | grep MultiConn);awk -F ',"
-                                    " ' '{print $3}'<<< $v);awk -F ': '"
-                                    " '{print $2}' <<< $d")
-        print(text)
+        if (self.context.nat.get_active):
+            subprocess.getoutput(f"VBoxManage modifyvm \"{self.vm}\" --nic1 nat")
+        else:
+            subprocess.getoutput(f"VBoxManage modifyvm \"{self.vm}\" --nic1 bridged")
+
+        self.autorun_change()
+
+        DialogSuccess("Settings saved").show()
 
     def on_cvm_rb_nat_toggled(self, radio):
         self.context.cvm_btn_port.set_sensitive(radio.get_active())

@@ -155,6 +155,7 @@
                             <property name="receives-default">True</property>
                             <property name="halign">center</property>
                             <property name="image">Loop1</property>
+                            <signal name="clicked" handler="cvm_btn_show_pass_clicked_cb" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left-attach">5</property>
@@ -978,6 +979,7 @@
                             <property name="receives-default">True</property>
                             <property name="halign">center</property>
                             <property name="image">Loop13</property>
+                            <signal name="clicked" handler="cvm_btn_show_pass_clicked_cb" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left-attach">5</property>
@@ -2064,6 +2066,7 @@
                             <property name="receives-default">True</property>
                             <property name="halign">center</property>
                             <property name="image">Loop2</property>
+                            <signal name="clicked" handler="cvm_btn_show_pass_clicked_cb" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left-attach">5</property>
@@ -3033,6 +3036,7 @@
                             <property name="receives-default">True</property>
                             <property name="halign">start</property>
                             <property name="image">Loop18</property>
+                            <signal name="clicked" handler="cvm_btn_show_pass_clicked_cb" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left-attach">2</property>
@@ -3980,6 +3984,7 @@
                             <property name="receives-default">True</property>
                             <property name="halign">start</property>
                             <property name="image">Loop7</property>
+                            <signal name="clicked" handler="cvm_btn_show_pass_clicked_cb" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left-attach">2</property>
@@ -4049,6 +4054,7 @@
                             <property name="receives-default">False</property>
                             <property name="halign">start</property>
                             <property name="draw-indicator">True</property>
+                            <signal name="toggled" handler="app_path_check" swapped="no"/>
                             <child>
                               <object class="GtkLabel" id="lblWindowTitlerdp3">
                                 <property name="visible">True</property>
@@ -4130,6 +4136,7 @@
                     <property name="halign">end</property>
                     <property name="valign">end</property>
                     <property name="vexpand">True</property>
+                    <signal name="clicked" handler="close_local_vrdp" swapped="no"/>
                     <child>
                       <object class="GtkLabel" id="lblCancelvrdp3">
                         <property name="visible">True</property>
@@ -4153,6 +4160,7 @@
                     <property name="halign">end</property>
                     <property name="valign">end</property>
                     <property name="vexpand">True</property>
+                    <signal name="clicked" handler="create_desktop" swapped="no"/>
                     <child>
                       <object class="GtkLabel" id="lblCreatevrdp3">
                         <property name="visible">True</property>
@@ -4307,6 +4315,7 @@
                             <property name="receives-default">True</property>
                             <property name="halign">center</property>
                             <property name="image">Loop5</property>
+                            <signal name="clicked" handler="cvm_btn_show_pass_clicked_cb" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left-attach">5</property>
@@ -5590,6 +5599,7 @@
                             <property name="receives-default">True</property>
                             <property name="halign">center</property>
                             <property name="image">Loop9</property>
+                            <signal name="clicked" handler="cvm_btn_show_pass_clicked_cb" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left-attach">5</property>
@@ -9404,6 +9414,7 @@
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
                 <property name="use-stock">True</property>
+                <signal name="clicked" handler="click" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>

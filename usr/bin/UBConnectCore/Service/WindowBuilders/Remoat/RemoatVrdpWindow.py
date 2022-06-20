@@ -84,6 +84,7 @@ class RemoteVrdpWindow:
         self.port_entry.connect("changed", self.ok_ip)
         self.login = self.builder.get_object("remote_vrdp_entry_login")
         self.password = self.builder.get_object("remote_vrdp_entry_password")
+        self.password.set_visibility(False)
         self.domain = self.builder.get_object("remote_vrdp_entry_domain")
         self.certignore = self.builder.get_object("remote_vrdp_cb_ignore")
         self.connect_name = self.builder.get_object("remote_vrdp_entry_conn_name")
@@ -176,7 +177,7 @@ class RemoteVrdpWindow:
                 connectionstring = connectionstring + f"--domain \"{self.domain.get_text()}\" "
 
             if self.connect_name.get_text() != "":
-                connectionstring = connectionstring + f"--name \"{self.connect_name.get_text()}\" "
+                connectionstring = connectionstring + f"--name \"{self.connect_name.get_text()}_VRDP\" "
 
             if self.title.get_active():
                 connectionstring = connectionstring + f"--windowtitle \"{self.title_text.get_text()}\" "
@@ -357,3 +358,6 @@ class EventHandler:
         isActive = self.context.folder_custom.get_active()
         self.context.browse_button.set_sensitive(isActive)
         self.context.folder_custom_path.set_sensitive(isActive)
+
+    def cvm_btn_show_pass_clicked_cb(self, button):
+        self.context.password.set_visibility(not self.context.password.get_visibility())

@@ -95,6 +95,7 @@ class RemoteRdpWindow:
         self.port_entry.connect("changed", self.ok_ip)
         self.login = self.builder.get_object("remote_rdp_entry_login")
         self.password = self.builder.get_object("remote_rdp_entry_password")
+        self.password.set_visibility(False)
         self.domain = self.builder.get_object("remote_rdp_entry_domain")
         self.certignore = self.builder.get_object("remote_rdp_cb_ignore")
         self.connect_name = self.builder.get_object("remote_rdp_entry_conn_name")
@@ -204,7 +205,7 @@ class RemoteRdpWindow:
                 connectionstring = connectionstring + f"--domain \"{self.domain.get_text()}\" "
 
             if self.connect_name.get_text() != "":
-                connectionstring = connectionstring + f"--name \"{self.connect_name.get_text()}\" "
+                connectionstring = connectionstring + f"--name \"{self.connect_name.get_text()}_RDP\" "
 
             if self.title.get_active():
                 connectionstring = connectionstring + f"--windowtitle \"{self.title_text.get_text()}\" "
@@ -424,7 +425,7 @@ class RemoteRdpWindow:
         self.builder.get_object("lblForwSoundAndMicrordp2").set_label(i18n("Sound and microphone forwarding"))
         self.builder.get_object("lblRemoteConnectionrdp2").set_label(i18n("Remote connection mode"))
         self.builder.get_object("lblWithEnvrdp2").set_label(i18n("With desktop environment"))
-        self.builder.get_object("lblWithoutEnvrdp2").set_label(i18n("desktop environment. Launch application:"))
+        self.builder.get_object("lblWithoutEnvrdp2").set_label(i18n("No desktop environment. Launch application:"))
         self.builder.get_object("lblWindowAppearancerdp2").set_label(i18n("Connection window appearance"))
         self.builder.get_object("lblWindowTitlerdp2").set_label(i18n("Window title"))
         self.builder.get_object("lblIconrdp2").set_label(i18n("Icon"))
@@ -454,7 +455,8 @@ class EventHandler:
         self.context.browse_button.set_sensitive(isActive)
         self.context.folder_custom_path.set_sensitive(isActive)
 
-
+    def cvm_btn_show_pass_clicked_cb(self, button):
+        self.context.password.set_visibility(not self.context.password.get_visibility())
 if __name__ == '__main__':
     main = RemoteRdpWindow()
     Gtk.main()

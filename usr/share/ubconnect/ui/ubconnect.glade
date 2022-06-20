@@ -4112,6 +4112,20 @@
           </packing>
         </child>
         <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Внимание! Запуск в режиме интеграции временно приостановит работу машины. Для запуска приложения используются гостевые дополнения, которые должны быть установлены в гостевой системе. Логин и пароль указывается от гостевой учетной записи для запуска приложения. </property>
+            <property name="justify">fill</property>
+            <property name="wrap">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkAlignment">
             <property name="visible">True</property>
             <property name="can-focus">False</property>

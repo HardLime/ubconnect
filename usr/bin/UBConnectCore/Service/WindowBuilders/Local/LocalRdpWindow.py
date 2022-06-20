@@ -152,7 +152,7 @@ class LocalRdpWindow:
                 connectionstring = connectionstring + f"--domain \"{self.domain.get_text()}\" "
 
 
-            connectionstring = connectionstring + f"--name \"{self.vmname}\" "
+            connectionstring = connectionstring + f"--name \"{self.vmname}_RDP\" "
             filename = f"{self.vmname}"
 
             if self.title.get_active():

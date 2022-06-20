@@ -209,7 +209,7 @@ class RemoteRdpWindow:
                 connectionstring = connectionstring + f"--domain \"{self.domain.get_text()}\" "
 
             if self.connect_name.get_text() != "":
-                connectionstring = connectionstring + f"--name \"{self.connect_name.get_text()}_RDP\" "
+                connectionstring = connectionstring + f"--name \"{self.connect_name.get_text()}\" "
 
             if self.title.get_active():
                 connectionstring = connectionstring + f"--windowtitle \"{self.title_text.get_text()}\" "

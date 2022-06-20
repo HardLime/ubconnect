@@ -108,7 +108,7 @@ class LocalRemoteWindow:
             if self.domain.get_text() != "":
                 connectionstring = connectionstring + f"--domain \"{self.domain.get_text()}\" "
 
-            connectionstring = connectionstring + f"--name \"{self.vmname}\" "
+            connectionstring = connectionstring + f"--name \"{self.vmname}_RA\" "
             filename = f"{self.vmname}"
 
             if self.folder_custom.get_active():

@@ -143,7 +143,7 @@ class RemoteRemoteWindow:
                 connectionstring = connectionstring + f"--domain \"{self.domain.get_text()}\" "
 
             if self.connect_name.get_text() != "":
-                connectionstring = connectionstring + f"--name \"{self.connect_name.get_text()}_RA\" "
+                connectionstring = connectionstring + f"--name \"{self.connect_name.get_text()}\" "
 
             if self.folder_custom.get_active():
                 if self.folder_custom_path.get_text() != "":

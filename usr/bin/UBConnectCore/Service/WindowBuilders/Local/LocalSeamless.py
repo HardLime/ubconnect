@@ -69,7 +69,7 @@ class LocalSeamless:
         else:
 
             if (self.login_entry.get_text() and self.password_entry.get_text() and self.vmname_entry.get_text()):
-                subprocess.Popen([f"{self.script_path}", "--vboxseamless", f"--login {self.login_entry.get_text()}", f"--password {self.password_entry.get_text()}", f"--appstart {self.app_path.get_text()}", f"--name \"{self.vmname}\""])
+                subprocess.Popen([f"{self.script_path}", "--vboxseamless", f"--login {self.login_entry.get_text()}", f"--password {self.password_entry.get_text()}", f"--appstart {self.app_path.get_text()}", f"--name \"{self.vmname}_seamless\""])
                 DialogSuccess("The shortcut is saved on the desktop!").show()
                 self.second_win.destroy()
             else:

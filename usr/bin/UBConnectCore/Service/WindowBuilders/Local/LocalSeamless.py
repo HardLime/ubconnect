@@ -7,6 +7,8 @@ from tkinter import filedialog
 
 import gi
 
+from UBConnectCore.Service.WindowBuilders.Conf.Dialogs import DialogSuccess
+
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
@@ -58,17 +60,7 @@ class LocalSeamless:
 
             if(self.login_entry.get_text() and self.password_entry.get_text() and self.vmname_entry.get_text() and self.app_path.get_text()):
                 subprocess.Popen([f"{self.script_path}", "--vboxseamless", f"--login {self.login_entry.get_text()}", f"--password {self.password_entry.get_text()}", f"--appstart {self.app_path.get_text()}", f"--name \"{self.vmname}_seamless\""])
-                dialog = Gtk.MessageDialog(
-                    transient_for=self.second_win,
-                    flags=0,
-                    message_type=Gtk.MessageType.INFO,
-                    buttons=Gtk.ButtonsType.OK,
-                    text=i18n("Success"),
-                )
-                dialog.format_secondary_text(i18n("The shortcut is saved on the desktop!"))
-                dialog.run()
-                dialog.destroy()
-                self.second_win.destroy()
+                DialogSuccess("The shortcut is saved on the desktop!").show()
             else:
                 dialog = Gtk.MessageDialog(
                     transient_for=self.second_win,

@@ -9,6 +9,8 @@ import gi
 
 from UBConnectCore.Service.WindowBuilders.Conf.SettingsModule import ConnectSettings, Settings
 
+from UBConnectCore.Service.WindowBuilders.Conf.Dialogs import DialogSuccess
+
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
@@ -179,6 +181,7 @@ class RemoteRemoteWindow:
                 subprocess.getoutput(f"{connectionstring} --{self.connect_client} --remoteapp")
             self.get_new_settings()
             self.contextMain.list_store_remote.clear()
+            DialogSuccess("The shortcut is saved on the desktop!").show()
             self.contextMain.start_update()
             self.second_win.destroy()
         else:

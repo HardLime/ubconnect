@@ -24,3 +24,19 @@ class DialogSuccess:
 
     def click(self, widget):
         self.second_win.destroy()
+
+class DialogError:
+    def __init__(self, message):
+        self.language_sys = locale.getdefaultlocale()
+        translate.install()
+        self.builder = Gtk.Builder()
+        self.builder.add_from_file("/usr/share/ubconnect/ui/ubconnect.glade")
+        self.second_win = self.builder.get_object("error")
+        self.builder.connect_signals(self)
+        self.builder.get_object("error_message").set_text(i18n(f"{message}"))
+
+    def show(self):
+        self.second_win.run()
+
+    def click(self, widget):
+        self.second_win.destroy()

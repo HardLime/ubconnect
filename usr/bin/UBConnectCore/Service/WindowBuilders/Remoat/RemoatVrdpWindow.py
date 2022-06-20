@@ -11,6 +11,8 @@ from UBConnectCore.Service.WindowBuilders.Conf.SettingsModule import ConnectSett
 
 from UBConnectCore.Service.WindowBuilders.Conf.Dialogs import DialogSuccess
 
+from UBConnectCore.Service.WindowBuilders.Conf.Dialogs import DialogError
+
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
@@ -231,9 +233,8 @@ class RemoteVrdpWindow:
             self.contextMain.start_update()
             self.second_win.destroy()
         else:
-            msgTitle = i18n("Error")
-            msgText = i18n("You must enter the address and connection name!")
-            subprocess.getoutput(f"zenity --error --title \"{msgTitle}\" --text \"{msgText}\"")
+            DialogError("You must enter the address and connection name!").show()
+
 
     def get_new_settings(self):
         newsettings = ConnectSettings()

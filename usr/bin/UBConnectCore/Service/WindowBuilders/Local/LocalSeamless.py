@@ -9,6 +9,8 @@ import gi
 
 from UBConnectCore.Service.WindowBuilders.Conf.Dialogs import DialogSuccess
 
+from UBConnectCore.Service.WindowBuilders.Conf.Dialogs import DialogError
+
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
@@ -62,42 +64,17 @@ class LocalSeamless:
                 subprocess.Popen([f"{self.script_path}", "--vboxseamless", f"--login {self.login_entry.get_text()}", f"--password {self.password_entry.get_text()}", f"--appstart {self.app_path.get_text()}", f"--name \"{self.vmname}_seamless\""])
                 DialogSuccess("The shortcut is saved on the desktop!").show()
             else:
-                dialog = Gtk.MessageDialog(
-                    transient_for=self.second_win,
-                    flags=0,
-                    message_type=Gtk.MessageType.INFO,
-                    buttons=Gtk.ButtonsType.OK,
-                    text=i18n("Error"),
-                )
-                dialog.format_secondary_text(i18n("Fill in the required fields! \n(machine name, login, password, app path)"))
-                dialog.run()
-                dialog.destroy()
+                DialogError("Fill in the required fields! \n(machine name, login, password, app path)").show()
+
         else:
 
             if (self.login_entry.get_text() and self.password_entry.get_text() and self.vmname_entry.get_text()):
                 subprocess.Popen([f"{self.script_path}", "--vboxseamless", f"--login {self.login_entry.get_text()}", f"--password {self.password_entry.get_text()}", f"--appstart {self.app_path.get_text()}", f"--name \"{self.vmname}\""])
-                dialog = Gtk.MessageDialog(
-                    transient_for=self.second_win,
-                    flags=0,
-                    message_type=Gtk.MessageType.INFO,
-                    buttons=Gtk.ButtonsType.OK,
-                    text=i18n("Success"),
-                )
-                dialog.format_secondary_text(i18n("The shortcut is saved on the desktop!"))
-                dialog.run()
-                dialog.destroy()
+                DialogSuccess("The shortcut is saved on the desktop!").show()
                 self.second_win.destroy()
             else:
-                dialog = Gtk.MessageDialog(
-                    transient_for=self.second_win,
-                    flags=0,
-                    message_type=Gtk.MessageType.INFO,
-                    buttons=Gtk.ButtonsType.OK,
-                    text=i18n("Error"),
-                )
-                dialog.format_secondary_text(i18n("Fill in the required fields! \n(machine name, login, password)"))
-                dialog.run()
-                dialog.destroy()
+                DialogError("Fill in the required fields! \n(machine name, login, password)").show()
+
 
 
     def update_translation(self):

@@ -8,6 +8,8 @@ from UBConnectCore.Service.WindowBuilders.Conf.AddUsb import AddUsb
 from UBConnectCore.Service.WindowBuilders.Conf.Dialogs import DialogSuccess
 from UBConnectCore.Service.WindowBuilders.Conf.dialog_delete import DialogDelete
 
+from UBConnectCore.Service.WindowBuilders.Conf.Dialogs import DialogError
+
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
@@ -208,16 +210,7 @@ class EventHandler:
                 subprocess.getoutput(
                     f"VBoxManage setextradata \"{self.vm}\" \"VBoxAuthSimple/users/{login}\" \"{passhash}\"")
         else:
-            dialog = Gtk.MessageDialog(
-                transient_for=self.context.second_win,
-                flags=0,
-                message_type=Gtk.MessageType.INFO,
-                buttons=Gtk.ButtonsType.OK,
-                text=i18n("Error"),
-            )
-            dialog.format_secondary_text(i18n("To save changes, you must turn off the virtual machine"))
-            dialog.run()
-            dialog.destroy()
+            DialogError("To save changes, you must turn off the virtual machine").show()
 
 
 

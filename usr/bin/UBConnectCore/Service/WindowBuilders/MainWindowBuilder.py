@@ -70,6 +70,7 @@ class MainWindowBuilder:
         self.waitText = self.builder.get_object("waitText")
 
         self.pid = None
+        self.threadwork = True
         self.update_translations()
         self.start_update()
 
@@ -77,21 +78,18 @@ class MainWindowBuilder:
         return subprocess.getoutput(f"ping -c 1 {ip} -w 1 1>/dev/null; [ $? == \"0\" ] && echo \"work\"")
 
     def start_update(self):
-        self.main_window.set_sensitive(False)
-
-        self.pid = subprocess.Popen(["zenity", "--progress", "--pulsate", "--no-cancel"]).pid
-
-        thread = threading.Thread(target=self.fill_tv_vms_remote, daemon=True)
-        thread.start()
-
-        thread.join()
-
-
+        if(self.threadwork):
+            self.threadwork = False
+            self.main_window.set_sensitive(False)
+            thread_update = subprocess.Popen(["zenity", "--progress", "--pulsate", "--no-cancel"])
+            self.pid = thread_update.pid
+            thread = threading.Thread(target=self.fill_tv_vms_remote, daemon=True)
+            thread.start()
+            thread.join()
 
 
     def fill_tv_vms_remote(self):
         vms_setting_list = Settings().getConnectList()
-
         i = 0
         for vm in vms_setting_list:
             print(self.check_status(vm.ip))
@@ -100,9 +98,9 @@ class MainWindowBuilder:
             else:
                 self.list_store_remote.append([i + 1, vm.connectname, False, vm.ip])
             i = i + 1
-
         subprocess.getoutput(f"kill {self.pid}")
         self.main_window.set_sensitive(True)
+        self.threadwork = True
 
 
     def gener(self):

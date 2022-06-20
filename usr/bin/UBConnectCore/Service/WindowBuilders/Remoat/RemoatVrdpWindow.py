@@ -224,6 +224,16 @@ class RemoteVrdpWindow:
 
             self.get_new_settings()
             self.contextMain.list_store_remote.clear()
+            dialog = Gtk.MessageDialog(
+                transient_for=self.second_win,
+                flags=0,
+                message_type=Gtk.MessageType.INFO,
+                buttons=Gtk.ButtonsType.OK,
+                text=i18n("Success"),
+            )
+            dialog.format_secondary_text(i18n("The shortcut is saved on the desktop!"))
+            dialog.run()
+            dialog.destroy()
             self.contextMain.start_update()
             self.second_win.destroy()
         else:

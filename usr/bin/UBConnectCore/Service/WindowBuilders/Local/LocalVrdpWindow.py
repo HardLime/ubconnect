@@ -177,10 +177,20 @@ class LocalVrdpWindow:
                 msgText = i18n("The file already exists. Enter yes to overwrite the file:")
                 yes = subprocess.getoutput(f"zenity --entry --title \"{msgTitle}\"--icon-name=\"info\" --text \"{msgText}\"")
                 subprocess.getoutput(f"echo {yes} | {connectionstring} --rdesktop-vrdp")
-                self.second_win.destroy()
+
             else:
                 subprocess.getoutput(f"{connectionstring} --rdesktop-vrdp")
-                self.second_win.destroy()
+            dialog = Gtk.MessageDialog(
+                transient_for=self.second_win,
+                flags=0,
+                message_type=Gtk.MessageType.INFO,
+                buttons=Gtk.ButtonsType.OK,
+                text=i18n("Success"),
+            )
+            dialog.format_secondary_text(i18n("The shortcut is saved on the desktop!"))
+            dialog.run()
+            dialog.destroy()
+            self.second_win.destroy()
         else:
             msgTitle = i18n("Error")
             msgText = i18n("You must enter the connection address!")

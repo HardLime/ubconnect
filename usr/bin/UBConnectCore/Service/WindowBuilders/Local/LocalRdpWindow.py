@@ -201,6 +201,17 @@ class LocalRdpWindow:
                 subprocess.getoutput(f"echo {yes} | {connectionstring} --{self.connect_client}")
             else:
                 subprocess.getoutput(f"{connectionstring} --{self.connect_client}")
+
+            dialog = Gtk.MessageDialog(
+                transient_for=self.second_win,
+                flags=0,
+                message_type=Gtk.MessageType.INFO,
+                buttons=Gtk.ButtonsType.OK,
+                text=i18n("Success"),
+            )
+            dialog.format_secondary_text(i18n("The shortcut is saved on the desktop!"))
+            dialog.run()
+            dialog.destroy()
             self.second_win.destroy()
         else:
             msgTitle = i18n("Error")

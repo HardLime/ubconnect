@@ -17,6 +17,8 @@ from UBConnectCore.Service.WindowBuilders.Remoat.RemoatRdpWindow import RemoteRd
 from UBConnectCore.Service.WindowBuilders.Remoat.RemoatVrdpWindow import RemoteVrdpWindow
 from UBConnectCore.Service.WindowBuilders.Remoat.RemoteRemoteWindow import RemoteRemoteWindow
 
+from UBConnectCore.Service.WindowBuilders.Local.LocalSeamless import LocalSeamless
+
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
@@ -102,6 +104,9 @@ class EventHandler:
 
     def local_btn_rdp_clicked_cb(self, widget):
         LocalRdpWindow(self.machine, self.vm_ip)
+
+    def local_btn_seamless_clicked_cb(self, widget):
+        LocalSeamless(self.machine)
 
     def local_btn_remoteapp_clicked_cb(self, widget):
         LocalRemoteWindow(self.machine, self.vm_ip)

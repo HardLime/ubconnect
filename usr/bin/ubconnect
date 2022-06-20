@@ -177,6 +177,7 @@ do
 
         --appstart)
             apppath=$2
+            app="on"
             case "$type" in
                 xfreerdp) 
                     if [ "$remoteapp" == "on" ];
@@ -251,7 +252,7 @@ then
       echo "--vmname - $(i18n "parameter is required")"
       exit
   fi
-  if [ ! -n "$appstart" ];
+  if [[ "$app" == "on" ]];
   then
     if [ ! -n "$login" ] && [ ! -n "$password" ]; then
         echo "$(i18n "for start app, you need send login and password")"

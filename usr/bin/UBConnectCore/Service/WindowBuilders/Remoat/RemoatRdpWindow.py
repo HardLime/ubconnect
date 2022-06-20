@@ -259,6 +259,16 @@ class RemoteRdpWindow:
                 subprocess.getoutput(f"{connectionstring} --{self.connect_client}")
 
             self.get_new_settings()
+            dialog = Gtk.MessageDialog(
+                transient_for=self.second_win,
+                flags=0,
+                message_type=Gtk.MessageType.INFO,
+                buttons=Gtk.ButtonsType.OK,
+                text=i18n("Success"),
+            )
+            dialog.format_secondary_text(i18n("The shortcut is saved on the desktop!"))
+            dialog.run()
+            dialog.destroy()
             self.contextMain.list_store_remote.clear()
             self.contextMain.start_update()
             self.second_win.destroy()

@@ -26,7 +26,7 @@ class LocalSeamless:
         self.builder.add_from_file("/usr/share/ubconnect/ui/ubconnect.glade")
         self.second_win = self.builder.get_object("vboxseamless")
         self.builder.connect_signals(EventHandler(self))
-        self.script_path = "ubconnect "
+        self.script_path = "ubconnect"
         self.second_win.show()
         self.initiation_ui()
 
@@ -59,19 +59,45 @@ class LocalSeamless:
 
     def create_desktop(self, widget):
         if(self.app_check.get_active()):
-
+            print("aaaaaaaaaaaa")
             if(self.login_entry.get_text() and self.password_entry.get_text() and self.vmname_entry.get_text() and self.app_path.get_text()):
-                subprocess.Popen([f"{self.script_path}", "--vboxseamless", f"--login {self.login_entry.get_text()}", f"--password {self.password_entry.get_text()}", f"--appstart {self.app_path.get_text()}", f"--name \"{self.vmname}_seamless\""])
-                DialogSuccess("The shortcut is saved on the desktop!").show()
+                desktop = subprocess.getoutput("xdg-user-dir DESKTOP")
+                if exists(f"{desktop}/{self.vmname}_seamless.desktop"):
+                    msgTitle = i18n("Confirm action")
+                    msgText = i18n("The file already exists. Enter yes to overwrite the file:")
+                    yes = subprocess.getoutput(
+                        f"zenity --entry --title \"{msgTitle}\" --icon-name=\"info\" --text \"{msgText}\"")
+                    if yes == "yes":
+                        subprocess.getoutput(f"ubconnect --vboxseamless --vmname \"{self.vmname}\" --name \"{self.vmname}_seamless\" --login {self.login_entry.get_text()} --password {self.password_entry.get_text()} --appstart \"{self.app_path.get_text()}\"")
+                        DialogSuccess("The shortcut is saved on the desktop!").show()
+                        print("asas")
+                        self.second_win.destroy()
+                    else:
+                        DialogError("Cancel").show()
+                else:
+                    subprocess.getoutput(
+                        f"ubconnect --vboxseamless --vmname \"{self.vmname}\" --name \"{self.vmname}_seamless\" --login {self.login_entry.get_text()} --password {self.password_entry.get_text()} --appstart \"{self.app_path.get_text()}\"")
+
+                    DialogSuccess("The shortcut is saved on the desktop!").show()
+                    self.second_win.destroy()
             else:
                 DialogError("Fill in the required fields! \n(machine name, login, password, app path)").show()
 
         else:
+            print("ooooooooo")
+            if (self.vmname_entry.get_text()):
+                desktop = subprocess.getoutput("xdg-user-dir DESKTOP")
+                if exists(f"{desktop}/{self.vmname}_seamless.desktop"):
+                    msgTitle = i18n("Confirm action")
+                    msgText = i18n("The file already exists. Enter yes to overwrite the file:")
+                    yes = subprocess.getoutput(f"zenity --entry --title \"{msgTitle}\" --icon-name=\"info\" --text \"{msgText}\"")
+                    if (yes == "yes"):
+                        subprocess.getoutput(f"ubconnect --vboxseamless --vmname \"{self.vmname}\" --name \"{self.vmname}_seamless\"")
+                        DialogSuccess("The shortcut is saved on the desktop!").show()
+                        self.second_win.destroy()
+                    else:
+                        DialogError("Cancel").show()
 
-            if (self.login_entry.get_text() and self.password_entry.get_text() and self.vmname_entry.get_text()):
-                subprocess.Popen([f"{self.script_path}", "--vboxseamless", f"--login {self.login_entry.get_text()}", f"--password {self.password_entry.get_text()}", f"--appstart {self.app_path.get_text()}", f"--name \"{self.vmname}_seamless\""])
-                DialogSuccess("The shortcut is saved on the desktop!").show()
-                self.second_win.destroy()
             else:
                 DialogError("Fill in the required fields! \n(machine name, login, password)").show()
 

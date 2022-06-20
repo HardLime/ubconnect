@@ -204,9 +204,13 @@ class LocalRdpWindow:
                 msgText = i18n("The file already exists. Enter yes to overwrite the file:")
                 yes = subprocess.getoutput(f"zenity --entry --title \"{msgTitle}\" --icon-name=\"info\" --text \"{msgText}\"")
                 subprocess.getoutput(f"echo {yes} | {connectionstring} --{self.connect_client}")
+                if (yes == "yes"):
+                    DialogSuccess("The shortcut is saved on the desktop!").show()
+                else:
+                    DialogError("Cancel").show()
             else:
                 subprocess.getoutput(f"{connectionstring} --{self.connect_client}")
-            DialogSuccess("The shortcut is saved on the desktop!").show()
+                DialogSuccess("The shortcut is saved on the desktop!").show()
             self.second_win.destroy()
         else:
             DialogError("You must enter the connection address!").show()

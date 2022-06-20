@@ -1,14 +1,12 @@
 import gettext
 import locale
+import subprocess
 from os.path import exists
 
 import gi
-import subprocess
-
 from UBConnectCore.Service.WindowBuilders.Conf.AddUsb import AddUsb
-from UBConnectCore.Service.WindowBuilders.Conf.dialog_delete import DialogDelete
-
 from UBConnectCore.Service.WindowBuilders.Conf.Dialogs import DialogSuccess
+from UBConnectCore.Service.WindowBuilders.Conf.dialog_delete import DialogDelete
 
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk

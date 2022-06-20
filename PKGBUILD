@@ -55,6 +55,7 @@ package() {
     install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/WindowBuilders/Conf/AddUsb.py "${pkgdir}/usr/bin/UBConnectCore/Service/WindowBuilders/Conf"
     install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/WindowBuilders/Conf/ChangeFolder.py "${pkgdir}/usr/bin/UBConnectCore/Service/WindowBuilders/Conf"
     install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/WindowBuilders/Conf/dialog_delete.py "${pkgdir}/usr/bin/UBConnectCore/Service/WindowBuilders/Conf"
+    install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/WindowBuilders/Conf/Dialogs.py "${pkgdir}/usr/bin/UBConnectCore/Service/WindowBuilders/Conf"
     install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/WindowBuilders/Conf/PortsWindow.py "${pkgdir}/usr/bin/UBConnectCore/Service/WindowBuilders/Conf"
     install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/WindowBuilders/Conf/SettingsModule.py "${pkgdir}/usr/bin/UBConnectCore/Service/WindowBuilders/Conf"
     install -Dv "${srcdir}/${pkgname}"/usr/bin/UBConnectCore/Service/WindowBuilders/Conf/VMPorts.py "${pkgdir}/usr/bin/UBConnectCore/Service/WindowBuilders/Conf"

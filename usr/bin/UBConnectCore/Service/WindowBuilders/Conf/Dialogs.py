@@ -16,6 +16,7 @@ class DialogSuccess:
         self.builder = Gtk.Builder()
         self.builder.add_from_file("/usr/share/ubconnect/ui/ubconnect.glade")
         self.second_win = self.builder.get_object("sucess")
+        self.builder.connect_signals(self)
         self.builder.get_object("message").set_text(i18n(f"{message}"))
 
     def show(self):

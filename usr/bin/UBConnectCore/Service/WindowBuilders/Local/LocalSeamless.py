@@ -59,7 +59,6 @@ class LocalSeamless:
 
     def create_desktop(self, widget):
         if(self.app_check.get_active()):
-            print("aaaaaaaaaaaa")
             if(self.login_entry.get_text() and self.password_entry.get_text() and self.vmname_entry.get_text() and self.app_path.get_text()):
                 desktop = subprocess.getoutput("xdg-user-dir DESKTOP")
                 if exists(f"{desktop}/{self.vmname}_seamless.desktop"):
@@ -84,7 +83,6 @@ class LocalSeamless:
                 DialogError("Fill in the required fields! \n(machine name, login, password, app path)").show()
 
         else:
-            print("ooooooooo")
             if (self.vmname_entry.get_text()):
                 desktop = subprocess.getoutput("xdg-user-dir DESKTOP")
                 if exists(f"{desktop}/{self.vmname}_seamless.desktop"):
@@ -97,7 +95,11 @@ class LocalSeamless:
                         self.second_win.destroy()
                     else:
                         DialogError("Cancel").show()
-
+                else:
+                    subprocess.getoutput(
+                        f"ubconnect --vboxseamless --vmname \"{self.vmname}\" --name \"{self.vmname}_seamless\"")
+                    DialogSuccess("The shortcut is saved on the desktop!").show()
+                    self.second_win.destroy()
             else:
                 DialogError("Fill in the required fields! \n(machine name, login, password)").show()
 
@@ -123,5 +125,5 @@ class EventHandler:
         self.context.password_entry.set_visibility(not self.context.password_entry.get_visibility())
 
 if __name__ == '__main__':
-    main = LocalVrdpWindow()
+    main = LocalSeamless()
     Gtk.main()
